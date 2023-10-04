@@ -6,7 +6,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.heixss.spendings.feature.data.database.Category
+import com.heixss.spendings.feature.data.database.CategoryEntity
 import com.heixss.spendings.feature.domain.uimodel.TotalSpendingPerCategory
 import com.heixss.spendings.feature.domain.uimodel.MonthlySpendingsData
 import com.heixss.spendings.feature.presentation.ui.screen.MonthlySpendingsDetailedScreen
@@ -26,9 +26,9 @@ class MonthlySpendingsDetailedScreenTest {
             val uiModel = rememberUpdatedState(MonthlySpendingsData(
                 totalSum = 1000.0,
                 totalSpendingPerCategoryList = listOf(
-                    TotalSpendingPerCategory(Category(1, "Category 1"), 300.0),
-                    TotalSpendingPerCategory(Category(2, "Category 2"), 500.0),
-                    TotalSpendingPerCategory(Category(3, "Category 3"), 200.0)
+                    TotalSpendingPerCategory(CategoryEntity(1, "Category 1"), 300.0),
+                    TotalSpendingPerCategory(CategoryEntity(2, "Category 2"), 500.0),
+                    TotalSpendingPerCategory(CategoryEntity(3, "Category 3"), 200.0)
                 )
             ))
             MonthlySpendingsDetailedScreen(

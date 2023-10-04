@@ -2,8 +2,8 @@ package com.heixss.spendings.feature.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.heixss.spendings.feature.data.database.Category
-import com.heixss.spendings.feature.data.database.Spending
+import com.heixss.spendings.feature.data.database.CategoryEntity
+import com.heixss.spendings.feature.data.database.SpendingEntity
 import com.heixss.spendings.feature.data.repositories.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -23,7 +23,7 @@ class AddSpendingViewModel @Inject constructor(
             mainRepository.getCategoryByName(category)?.let { category ->
                 category.let {
                     mainRepository.insertSpending(
-                        Spending(
+                        SpendingEntity(
                             categoryId = category.id,
                             description = description,
                             value = amount,
@@ -34,7 +34,7 @@ class AddSpendingViewModel @Inject constructor(
                     )
                 }
             } ?: run {
-                mainRepository.insertCategory(Category(name = category))
+                mainRepository.insertCategory(CategoryEntity(name = category))
                 addSpending(category, description, amount, timeStamp)
             }
 

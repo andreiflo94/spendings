@@ -2,7 +2,7 @@ package com.heixss.spendings.feature.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.heixss.spendings.feature.data.database.Spending
+import com.heixss.spendings.feature.data.database.SpendingEntity
 import com.heixss.spendings.feature.data.repositories.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -19,7 +19,7 @@ class AddSubSpendingViewModel @Inject constructor(
             val cal: Calendar = Calendar.getInstance()
             cal.timeInMillis = timeStamp
             mainRepository.insertSpending(
-                Spending(
+                SpendingEntity(
                     categoryId = categoryId,
                     description = description,
                     value = amount,

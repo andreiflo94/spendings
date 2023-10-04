@@ -1,8 +1,8 @@
 package com.heixss.spendings.feature.domain.repository
 
 import com.heixss.spendings.feature.data.database.AppDatabase
-import com.heixss.spendings.feature.data.database.Category
-import com.heixss.spendings.feature.data.database.Spending
+import com.heixss.spendings.feature.data.database.CategoryEntity
+import com.heixss.spendings.feature.data.database.SpendingEntity
 import com.heixss.spendings.feature.data.repositories.MainRepository
 
 import kotlinx.coroutines.flow.Flow
@@ -12,28 +12,28 @@ class MainRepositoryImpl @Inject constructor(
     private val appDatabase: AppDatabase
 ) : MainRepository {
 
-    override fun allSpendingsFlow(): Flow<List<Spending>> = appDatabase.spendingDao().allSpendings()
+    override fun allSpendingsFlow(): Flow<List<SpendingEntity>> = appDatabase.spendingDao().allSpendings()
 
-    override fun spendingsFlow(month: Int, year: Int): Flow<List<Spending>> =
+    override fun spendingsFlow(month: Int, year: Int): Flow<List<SpendingEntity>> =
         appDatabase.spendingDao().allSpendings(month, year)
 
-    override fun allCategoriesFlow(): Flow<List<Category>> {
+    override fun allCategoriesFlow(): Flow<List<CategoryEntity>> {
         return appDatabase.categoryDao().getAllCategories()
     }
 
-    override suspend fun insertCategory(category: Category) {
-        appDatabase.categoryDao().insert(category)
+    override suspend fun insertCategory(categoryEntity: CategoryEntity) {
+        appDatabase.categoryDao().insert(categoryEntity)
     }
 
-    override suspend fun insertSpending(spending: Spending) {
-        appDatabase.spendingDao().insert(spending)
+    override suspend fun insertSpending(spendingEntity: SpendingEntity) {
+        appDatabase.spendingDao().insert(spendingEntity)
     }
 
-    override suspend fun getCategoryByName(category: String): Category? {
+    override suspend fun getCategoryByName(category: String): CategoryEntity? {
         return appDatabase.categoryDao().getCategory(category)
     }
 
-    override suspend fun getCategoryById(categoryId: Long): Category {
+    override suspend fun getCategoryById(categoryId: Long): CategoryEntity {
         return appDatabase.categoryDao().getCategoryById(categoryId)
     }
 
@@ -45,14 +45,14 @@ class MainRepositoryImpl @Inject constructor(
         appDatabase.spendingDao().clearAll()
     }
 
-    override fun getSpendings(month: Int, year: Int): Flow<List<Spending>> =
+    override fun getSpendings(month: Int, year: Int): Flow<List<SpendingEntity>> =
         appDatabase.spendingDao().getSpendings(month, year)
 
     override suspend fun getSpendingsByCategoryId(
         categoryId: Long,
         month: Int,
         year: Int
-    ): List<Spending> {
+    ): List<SpendingEntity> {
         return appDatabase.spendingDao().getSpendingsByCategoryId(categoryId, month, year)
     }
 }

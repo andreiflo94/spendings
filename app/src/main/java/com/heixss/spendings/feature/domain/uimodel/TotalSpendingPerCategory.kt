@@ -1,8 +1,8 @@
 package com.heixss.spendings.feature.domain.uimodel
 
-import com.heixss.spendings.feature.data.database.Category
+import com.heixss.spendings.feature.data.database.CategoryEntity
 
 data class TotalSpendingPerCategory(
-    val category: Category,
+    val categoryEntity: CategoryEntity,
     val totalSpending: Double
 )

@@ -5,14 +5,14 @@ import androidx.room.Dao
 import androidx.room.Query
 
 @Dao
-abstract class CategoryDao : BaseDao<Category>() {
+abstract class CategoryDao : BaseDao<CategoryEntity>() {
 
-    @Query("SELECT * FROM category WHERE name = :category")
-    abstract suspend fun getCategory(category: String): Category?
+    @Query("SELECT * FROM categoryentity WHERE name = :category")
+    abstract suspend fun getCategory(category: String): CategoryEntity?
 
-    @Query("SELECT * FROM category")
-    abstract fun getAllCategories(): Flow<List<Category>>
+    @Query("SELECT * FROM categoryentity")
+    abstract fun getAllCategories(): Flow<List<CategoryEntity>>
 
-    @Query("SELECT * FROM category WHERE id = :categoryId")
-    abstract suspend fun getCategoryById(categoryId: Long): Category
+    @Query("SELECT * FROM categoryentity WHERE id = :categoryId")
+    abstract suspend fun getCategoryById(categoryId: Long): CategoryEntity
 }

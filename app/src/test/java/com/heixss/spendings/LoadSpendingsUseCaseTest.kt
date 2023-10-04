@@ -1,7 +1,7 @@
 package com.heixss.spendings
 
-import com.heixss.spendings.feature.data.database.Category
-import com.heixss.spendings.feature.data.database.Spending
+import com.heixss.spendings.feature.data.database.CategoryEntity
+import com.heixss.spendings.feature.data.database.SpendingEntity
 import com.heixss.spendings.feature.data.repositories.MainRepository
 import com.heixss.spendings.feature.domain.uimodel.UISpendingModel
 import com.heixss.spendings.feature.domain.usecases.LoadSpendingsUseCase
@@ -38,12 +38,12 @@ class LoadSpendingsUseCaseTest {
             )
         )
         whenever(mockMainRepository.getCategoryById(3)).thenReturn(
-            Category(id = 3,
+            CategoryEntity(id = 3,
                 name = "Mancare")
         )
         whenever(mockMainRepository.getSpendingsByCategoryId(categoryId, month, year)).thenReturn(
             listOf(
-                Spending(
+                SpendingEntity(
                     id = 3,
                     categoryId = 3,
                     description = "desc",

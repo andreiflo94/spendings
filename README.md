@@ -23,4 +23,4 @@ Spendings is an Android native app designed to help users track their monthly ex
 - For dependency injection, I utilized [Hilt](https://developer.android.com/training/dependency-injection/hilt-android).
 - [StateFlow](https://developer.android.com/kotlin/flow/stateflow-and-sharedflow) is used to observe data from the ViewModel in the presentation layer.
 - I used [Jetpack Compose](https://developer.android.com/jetpack/compose) to write/compose the UI in the presentation layer.
-- The architecture facilitates simple unit testing separation for the business logic by testing the UseCase classes. I employed the [Mockito](https://site.mockito.org/) library to mock results from the repositories used in the UseCase classes.
+- The architecture facilitates simple unit testing separation for the business logic by testing the UseCase classes. I used [Mockito](https://site.mockito.org/) library to mock results from the repositories used in the UseCase classes.

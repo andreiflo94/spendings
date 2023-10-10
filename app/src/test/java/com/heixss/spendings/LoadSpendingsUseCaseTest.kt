@@ -1,10 +1,12 @@
 package com.heixss.spendings
 
+import androidx.compose.runtime.mutableStateOf
 import com.heixss.spendings.feature.data.database.CategoryEntity
 import com.heixss.spendings.feature.data.database.SpendingEntity
 import com.heixss.spendings.feature.data.repositories.MainRepository
-import com.heixss.spendings.feature.domain.uimodel.UISpendingModel
+import com.heixss.spendings.feature.domain.model.SpendingModel
 import com.heixss.spendings.feature.domain.usecases.LoadSpendingsUseCase
+import com.heixss.spendings.feature.presentation.ui.screen.SpendingsScreenState
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -23,23 +25,22 @@ class LoadSpendingsUseCaseTest {
     }
 
     @Test
-    fun `load spendings should return a list of UISpendingModel`() = runBlocking {
+    fun `load spendings should return SpendingsScreenState`() = runBlocking {
         // Arrange
         val categoryId = 1L
-        val month = 9
+        val month = 10
         val year = 2023
-        val expectedUISpendingList: List<UISpendingModel> = listOf(
-            UISpendingModel(
-                "Mancare",
+        val expectedSpendingModelList = listOf(
+            SpendingModel(
                 "desc",
                 210.0,
-                "9/11/2013",
+                "10/11/2013",
                 3
             )
         )
+        val expectedSpendingsScreenState = SpendingsScreenState("Food", mutableStateOf(expectedSpendingModelList))
         whenever(mockMainRepository.getCategoryById(3)).thenReturn(
-            CategoryEntity(id = 3,
-                name = "Mancare")
+            CategoryEntity(id = 3, name = "Food")
         )
         whenever(mockMainRepository.getSpendingsByCategoryId(categoryId, month, year)).thenReturn(
             listOf(
@@ -48,7 +49,7 @@ class LoadSpendingsUseCaseTest {
                     categoryId = 3,
                     description = "desc",
                     value = 210.0,
-                    day = 9,
+                    day = 10,
                     month = 11,
                     year = 2013
                 )
@@ -58,7 +59,13 @@ class LoadSpendingsUseCaseTest {
         // Act
         val result = loadSpendingsUseCase(categoryId, month, year)
 
-        // Assert
-        assertEquals(expectedUISpendingList, result)
+        // Extract the values from the MutableState instances
+        val expectedSpendingsList = expectedSpendingsScreenState.spendings.value
+        val actualSpendingsList = result.spendings.value
+
+        // Assert the content of the SpendingsScreenState
+        assertEquals(expectedSpendingsScreenState.category, result.category)
+        assertEquals(expectedSpendingsList, actualSpendingsList)
     }
+
 }

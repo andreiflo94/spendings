@@ -7,15 +7,15 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.heixss.spendings.feature.data.database.CategoryEntity
-import com.heixss.spendings.feature.domain.uimodel.TotalSpendingPerCategory
-import com.heixss.spendings.feature.domain.uimodel.MonthlySpendingsData
-import com.heixss.spendings.feature.presentation.ui.screen.MonthlySpendingsDetailedScreen
+import com.heixss.spendings.feature.domain.model.TotalSpendingPerCategory
+import com.heixss.spendings.feature.presentation.ui.screen.CategoriesScreenState
+import com.heixss.spendings.feature.presentation.ui.screen.CategoriesScreen
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class MonthlySpendingsDetailedScreenTest {
+class CategoriesScreenTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -23,15 +23,18 @@ class MonthlySpendingsDetailedScreenTest {
     @Test
     fun testMonthlySpendingsDetailedScreen() {
         composeTestRule.setContent {
-            val uiModel = rememberUpdatedState(MonthlySpendingsData(
+            val uiModel = rememberUpdatedState(
+                CategoriesScreenState(
                 totalSum = 1000.0,
+                month = "21/12",
                 totalSpendingPerCategoryList = listOf(
-                    TotalSpendingPerCategory(CategoryEntity(1, "Category 1"), 300.0),
-                    TotalSpendingPerCategory(CategoryEntity(2, "Category 2"), 500.0),
-                    TotalSpendingPerCategory(CategoryEntity(3, "Category 3"), 200.0)
+                    TotalSpendingPerCategory(categoryId = 1, categoryName = "Category 1", totalSpendingValue = 600.0),
+                    TotalSpendingPerCategory(categoryId = 2, categoryName = "Category 2", totalSpendingValue = 700.0),
+                    TotalSpendingPerCategory(categoryId = 3, categoryName = "Category 3", totalSpendingValue = 200.0)
                 )
-            ))
-            MonthlySpendingsDetailedScreen(
+            )
+            )
+            CategoriesScreen(
                 uiModel,
                 onItemClick = {}
             )

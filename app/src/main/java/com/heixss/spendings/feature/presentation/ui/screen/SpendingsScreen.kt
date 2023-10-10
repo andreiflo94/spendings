@@ -1,7 +1,6 @@
 package com.heixss.spendings.feature.presentation.ui.screen
 
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,12 +9,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -29,18 +29,18 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.heixss.spendings.composables.Screen
-import com.heixss.spendings.feature.domain.uimodel.UISpendingModel
+import com.heixss.spendings.feature.domain.model.SpendingModel
 
 @Composable
-fun SpendingsByCategoriesScreen(
-    spendingList: State<List<UISpendingModel>>,
+fun SpendingsScreen(
+    uiCategorySpendings: State<SpendingsScreenState>,
     onDelete: (Long) -> Unit
 ) {
-    Screen(screenTitle = "Spendings by Category"){
+    Screen(screenTitle = uiCategorySpendings.value.category){
         LazyColumn(
             modifier = Modifier.fillMaxSize()
         ) {
-            this.items(spendingList.value) { spendingItem ->
+            this.items(uiCategorySpendings.value.spendings.value) { spendingItem ->
                 SpendingListItem(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -57,7 +57,7 @@ fun SpendingsByCategoriesScreen(
 @Composable
 fun SpendingListItem(
     modifier: Modifier = Modifier,
-    spendingItem: UISpendingModel,
+    spendingItem: SpendingModel,
     onDelete: (Long) -> Unit
 ) {
     Card(
@@ -72,26 +72,24 @@ fun SpendingListItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = spendingItem.category,
-                    style = MaterialTheme.typography.bodyLarge,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    modifier = Modifier.wrapContentWidth(Alignment.Start)
+                        .weight(1.5f)
+                        .wrapContentHeight()
+                        .padding(top = 8.dp, bottom = 8.dp),
+                    text = spendingItem.description,
+                    style = MaterialTheme.typography.bodyMedium,
+                    overflow = TextOverflow.Visible,
+                    maxLines = Int.MAX_VALUE,
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.width(8.dp))
                 Text(
+                    modifier = Modifier.wrapContentWidth(Alignment.End)
+                        .weight(0.5f),
                     text = spendingItem.date,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary
                 )
             }
-            Text(
-                modifier = Modifier.fillMaxWidth()
-                    .wrapContentHeight()
-                    .padding(top = 8.dp, bottom = 8.dp),
-                text = spendingItem.description,
-                style = MaterialTheme.typography.bodyMedium,
-                overflow = TextOverflow.Visible
-            )
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -120,22 +118,6 @@ fun SpendingListItem(
     }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewSpendingsByCategoriesScreen() {
-//    val spendingList = remember {
-//        mutableStateOf(
-//            listOf(
-//                UISpendingModel("Rata", "Plata ratei", 321.0, "2/12/2004"),
-//                UISpendingModel("Rata", "Plata ratei", 321.0, "2/12/2004")
-//            )
-//        )
-//    }
-//    SpendingsByCategories(spendingList, {
-//
-//    })
-//}
-
 @Preview(showBackground = true)
 @Composable
 fun PreviewSpendingItem() {
@@ -143,6 +125,6 @@ fun PreviewSpendingItem() {
     SpendingListItem(modifier =  Modifier
         .fillMaxWidth()
         .padding(16.dp),
-        UISpendingModel("Rata", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.", 321.0, "2/12/2004",320),
+        SpendingModel("Lorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is s", 321.0, "2/12/2004",320),
         {})
 }

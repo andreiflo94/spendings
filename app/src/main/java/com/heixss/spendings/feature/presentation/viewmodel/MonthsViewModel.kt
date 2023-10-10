@@ -6,8 +6,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class MonthlySpendingsViewModel @Inject constructor(
+class MonthsViewModel @Inject constructor(
     mainRepository: MainRepository
 ) : ViewModel() {
-    val monthlySpendingsFlow = mainRepository.allSpendingsFlow()
+    val allSpendingsFlow = mainRepository.allSpendingsFlow()
 }

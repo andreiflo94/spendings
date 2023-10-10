@@ -22,26 +22,36 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.heixss.spendings.composables.Screen
 import com.heixss.spendings.feature.data.database.CategoryEntity
-import com.heixss.spendings.feature.domain.uimodel.TotalSpendingPerCategory
-import com.heixss.spendings.feature.domain.uimodel.MonthlySpendingsData
+import com.heixss.spendings.feature.domain.model.TotalSpendingPerCategory
 
 @Composable
-fun MonthlySpendingsDetailedScreen(uiModel: State<MonthlySpendingsData>,
-                                   onItemClick: (Long) -> Unit) {
-    Screen("Spending categories by month"){
-        Text(
-            text = uiModel.value.totalSum.toString(),
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.padding(top = 16.dp)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        SpendingList(uiModel.value.totalSpendingPerCategoryList, onItemClick)
+fun CategoriesScreen(
+    uiModel: State<CategoriesScreenState>,
+    onItemClick: (Long) -> Unit
+) {
+    Screen("Categories") {
+        Column(modifier = Modifier.fillMaxSize()) {
+            Text(
+                text = "Total Sum: " + uiModel.value.totalSum.toString(),
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(top = 16.dp)
+            )
+            Text(
+                text = "Month: " + uiModel.value.month.toString(),
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(top = 16.dp)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            SpendingList(uiModel.value.totalSpendingPerCategoryList, onItemClick)
+        }
     }
 }
 
 @Composable
-fun SpendingList(spendingList: List<TotalSpendingPerCategory>,
-                 onItemClick: (Long) -> Unit) {
+fun SpendingList(
+    spendingList: List<TotalSpendingPerCategory>,
+    onItemClick: (Long) -> Unit
+) {
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -53,28 +63,30 @@ fun SpendingList(spendingList: List<TotalSpendingPerCategory>,
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SpendingListItem(spendingItem: TotalSpendingPerCategory,
-                     onItemClick: (Long) -> Unit) {
+fun SpendingListItem(
+    spendingItem: TotalSpendingPerCategory,
+    onItemClick: (Long) -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 8.dp, bottom = 8.dp),
-       onClick = {
-           onItemClick(spendingItem.categoryEntity.id)
-       }
+        onClick = {
+            onItemClick(spendingItem.categoryId)
+        }
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
             Text(
-                text = spendingItem.categoryEntity.name,
+                text = spendingItem.categoryName,
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = spendingItem.totalSpending.toString(),
+                text = spendingItem.totalSpendingValue.toString(),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -86,19 +98,20 @@ fun SpendingListItem(spendingItem: TotalSpendingPerCategory,
 @Preview(showBackground = true)
 fun MonthlySpendingsDetailedScreenPreview() {
     val uiModel = remember {
-        MonthlySpendingsData(
+        CategoriesScreenState(
             totalSum = 1500.0,
+            month = "15/08",
             totalSpendingPerCategoryList = listOf(
-                TotalSpendingPerCategory(CategoryEntity(1, "Category 1"), 600.0),
-                TotalSpendingPerCategory(CategoryEntity(2, "Category 2"), 700.0),
-                TotalSpendingPerCategory(CategoryEntity(3, "Category 3"), 200.0)
+                TotalSpendingPerCategory(categoryId = 1, categoryName = "Category 1", totalSpendingValue = 600.0),
+                TotalSpendingPerCategory(categoryId = 2, categoryName = "Category 2", totalSpendingValue = 700.0),
+                TotalSpendingPerCategory(categoryId = 3, categoryName = "Category 3", totalSpendingValue = 200.0)
             )
         )
     }
 
     val uiModelState = remember { mutableStateOf(uiModel) }
 
-    MonthlySpendingsDetailedScreen(
+    CategoriesScreen(
         uiModel = uiModelState,
         onItemClick = {}
     )

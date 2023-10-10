@@ -13,16 +13,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.heixss.spendings.feature.domain.uimodel.MonthlySpendingsData
+import com.heixss.spendings.feature.presentation.ui.screen.CategoriesScreenState
 import com.heixss.spendings.feature.presentation.ui.screen.AddSpendingScreen
-import com.heixss.spendings.feature.presentation.ui.screen.MonthlySpendingsDetailedScreen
-import com.heixss.spendings.feature.presentation.ui.screen.MonthlySpendingsScreen
-import com.heixss.spendings.feature.presentation.ui.screen.SpendingsByCategoriesScreen
+import com.heixss.spendings.feature.presentation.ui.screen.CategoriesScreen
+import com.heixss.spendings.feature.presentation.ui.screen.MonthsScreen
+import com.heixss.spendings.feature.presentation.ui.screen.SpendingsScreen
 import com.heixss.spendings.feature.presentation.ui.theme.SpendingsTheme
 import com.heixss.spendings.feature.presentation.viewmodel.AddSpendingViewModel
-import com.heixss.spendings.feature.presentation.viewmodel.MonthlySpendingsCategoryDetailedViewModel
-import com.heixss.spendings.feature.presentation.viewmodel.MonthlySpendingsDetailedViewModel
-import com.heixss.spendings.feature.presentation.viewmodel.MonthlySpendingsViewModel
+import com.heixss.spendings.feature.presentation.viewmodel.SpendingsViewModel
+import com.heixss.spendings.feature.presentation.viewmodel.CategoriesScreenViewModel
+import com.heixss.spendings.feature.presentation.viewmodel.MonthsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,31 +38,31 @@ class MainActivity : ComponentActivity() {
     }
 
     sealed class Screen(val route: String) {
-        object AddSpending : Screen("add_spending")
-        object MonthlySpendings : Screen("my_monthly_spendings")
-        object MonthlySpendingsDetailed : Screen("my_monthly_spendings_detailed")
-        object MonthlySpendingsCategoryDetailed : Screen("my_monthly_spendings_category_detailed")
+        object AddSpendingScreen : Screen("add_spending")
+        object MonthsScreen : Screen("months")
+        object CategoriesScreen : Screen("categories")
+        object SpendingsScreen : Screen("spendings")
     }
 
     @Composable
     fun SpendingsApp(
     ) {
         val navController = rememberNavController()
-        NavHost(navController, startDestination = Screen.MonthlySpendings.route) {
-            composable(Screen.MonthlySpendings.route) {
-                val viewModel = hiltViewModel<MonthlySpendingsViewModel>()
-                MonthlySpendingsScreen(
-                    spendings = viewModel.monthlySpendingsFlow.collectAsStateWithLifecycle(initialValue = emptyList()),
+        NavHost(navController, startDestination = Screen.MonthsScreen.route) {
+            composable(Screen.MonthsScreen.route) {
+                val viewModel = hiltViewModel<MonthsViewModel>()
+                MonthsScreen(
+                    spendings = viewModel.allSpendingsFlow.collectAsStateWithLifecycle(initialValue = emptyList()),
                     onAddClick = {
-                        navController.navigate(Screen.AddSpending.route)
+                        navController.navigate(Screen.AddSpendingScreen.route)
                     },
                     onItemClick = { month, year ->
-                        navController.navigate(Screen.MonthlySpendingsDetailed.route + "?month=$month&year=$year")
+                        navController.navigate(Screen.CategoriesScreen.route + "?month=$month&year=$year")
                     }
                 )
             }
             composable(
-                route = Screen.MonthlySpendingsDetailed.route + "?month={month}&year={year}",
+                route = Screen.CategoriesScreen.route + "?month={month}&year={year}",
                 arguments = listOf(
                     navArgument(
                         name = "month"
@@ -85,20 +85,20 @@ class MainActivity : ComponentActivity() {
                 }
                 val year = navArgs?.getInt("year") ?: 0
 
-                val viewModel = hiltViewModel<MonthlySpendingsDetailedViewModel>()
+                val viewModel = hiltViewModel<CategoriesScreenViewModel>()
                 viewModel.month = month
                 viewModel.year = year
 
-                MonthlySpendingsDetailedScreen(uiModel = viewModel.spendings.collectAsStateWithLifecycle(MonthlySpendingsData(0.0, emptyList())),
+                CategoriesScreen(uiModel = viewModel.spendings.collectAsStateWithLifecycle(CategoriesScreenState(0.0, "", emptyList())),
                     onItemClick = { categoryId ->
                         navController.navigate(
-                            Screen.MonthlySpendingsCategoryDetailed.route +
+                            Screen.SpendingsScreen.route +
                                     "?categoryId=$categoryId&month=$month&year=$year"
                         )
                     })
 
             }
-            composable(Screen.AddSpending.route) {
+            composable(Screen.AddSpendingScreen.route) {
                 val viewModel = hiltViewModel<AddSpendingViewModel>()
                 val context = LocalContext.current
                 AddSpendingScreen(
@@ -120,7 +120,7 @@ class MainActivity : ComponentActivity() {
                 )
             }
             composable(
-                route = Screen.MonthlySpendingsCategoryDetailed.route + "?categoryId={categoryId}&month={month}&year={year}",
+                route = Screen.SpendingsScreen.route + "?categoryId={categoryId}&month={month}&year={year}",
                 arguments = listOf(
                     navArgument(
                         name = "categoryId"
@@ -148,12 +148,12 @@ class MainActivity : ComponentActivity() {
                 val month = navArgs?.getInt("month") ?: 0
                 val year = navArgs?.getInt("year") ?: 0
 
-                val viewModel = hiltViewModel<MonthlySpendingsCategoryDetailedViewModel>()
+                val viewModel = hiltViewModel<SpendingsViewModel>()
 
                 viewModel.loadSpendings(categoryId, month, year)
 
-                SpendingsByCategoriesScreen(
-                    spendingList = viewModel.state.collectAsStateWithLifecycle(),
+                SpendingsScreen(
+                    uiCategorySpendings = viewModel.state.collectAsStateWithLifecycle(),
                     onDelete = { spendingId ->
                         viewModel.removeSpending(spendingId)
                     }

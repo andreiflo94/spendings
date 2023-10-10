@@ -9,10 +9,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.heixss.spendings.feature.data.database.SpendingEntity
-import com.heixss.spendings.feature.presentation.ui.screen.MonthlySpendingsScreen
+import com.heixss.spendings.feature.presentation.ui.screen.MonthsScreen
 
 @RunWith(AndroidJUnit4::class)
-class MonthlySpendingsScreenTest {
+class MonthsScreenTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -25,9 +25,8 @@ class MonthlySpendingsScreenTest {
                 SpendingEntity(8, 1, day = 2, month = 9, year = 2023, value = 321.0),
                 SpendingEntity(8, 1, day = 2, month = 9, year = 2023, value = 321.0),
                 SpendingEntity(8, 1, day = 2, month = 9, year = 2023, value = 321.0),
-                // Add more sample data as needed
             ))
-            MonthlySpendingsScreen(
+            MonthsScreen(
                 spendings = spendings,
                 onAddClick = {},
                 onItemClick = { _, _ -> }
@@ -41,10 +40,6 @@ class MonthlySpendingsScreenTest {
         composeTestRule
             .onNodeWithText("Add")
             .assertExists()
-
-        // Verify that the MonthlySpendingItem composable is displayed for each distinct month/year combination
-        composeTestRule
-            .onAllNodesWithTag("MonthlySpendingItem")
 
         // Verify that each MonthlySpendingItem displays the correct text
         composeTestRule

@@ -14,12 +14,12 @@ import com.heixss.spendings.composables.Screen
 import com.heixss.spendings.feature.data.database.SpendingEntity
 
 @Composable
-fun MonthlySpendingsScreen(
+fun MonthsScreen(
     spendings: State<List<SpendingEntity>>,
     onAddClick: () -> Unit,
     onItemClick: (Int, Int) -> Unit
 ) {
-    Screen("Spendings by month") {
+    Screen("Months") {
         Button(
             onClick = onAddClick,
             modifier = Modifier
@@ -33,7 +33,7 @@ fun MonthlySpendingsScreen(
             this.items(spendings.value.distinctBy {
                 "${it.month}/${it.year}"
             }) { spending ->
-                MonthlySpendingItem(
+                MonthItem(
                     month = spending.month,
                     year = spending.year,
                     onItemClick = { month, year ->
@@ -46,7 +46,7 @@ fun MonthlySpendingsScreen(
 }
 
 @Composable
-fun MonthlySpendingItem(month: Int, year: Int, onItemClick: (Int, Int) -> Unit) {
+fun MonthItem(month: Int, year: Int, onItemClick: (Int, Int) -> Unit) {
     Button(
         onClick = { onItemClick(month, year) },
         modifier = Modifier.fillMaxWidth()
@@ -57,8 +57,8 @@ fun MonthlySpendingItem(month: Int, year: Int, onItemClick: (Int, Int) -> Unit) 
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewMonthlySpendingItem() {
-    MonthlySpendingItem(8, 2023, onItemClick = { _, _ ->
+fun PreviewMonthItem() {
+    MonthItem(8, 2023, onItemClick = { _, _ ->
 
     })
 }

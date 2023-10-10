@@ -11,6 +11,7 @@ Spendings is an Android native app designed to help users track their monthly ex
 ![Add Spending Screen](https://raw.githubusercontent.com/andreiflo94/spendings/main/screenshots/add_spending_ss.png)
 
 - When a month is selected, the user is presented with all the spending categories, along with the total sum spent and the month the spendings were made.
+
 ![Categories](https://raw.githubusercontent.com/andreiflo94/spendings/main/screenshots/categories_ss.png)
 
 - Clicking a category displays all related spendings to the user.

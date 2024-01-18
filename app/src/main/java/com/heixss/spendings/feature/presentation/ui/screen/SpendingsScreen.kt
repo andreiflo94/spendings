@@ -29,14 +29,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.heixss.spendings.composables.Screen
-import com.heixss.spendings.feature.domain.model.SpendingModel
+import com.heixss.spendings.feature.domain.model.Spending
 
 @Composable
 fun SpendingsScreen(
     uiCategorySpendings: State<SpendingsScreenState>,
     onDelete: (Long) -> Unit
 ) {
-    Screen(screenTitle = uiCategorySpendings.value.category){
+    Screen(screenTitle = uiCategorySpendings.value.category) {
         LazyColumn(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -57,7 +57,7 @@ fun SpendingsScreen(
 @Composable
 fun SpendingListItem(
     modifier: Modifier = Modifier,
-    spendingItem: SpendingModel,
+    spendingItem: Spending,
     onDelete: (Long) -> Unit
 ) {
     Card(
@@ -72,7 +72,8 @@ fun SpendingListItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    modifier = Modifier.wrapContentWidth(Alignment.Start)
+                    modifier = Modifier
+                        .wrapContentWidth(Alignment.Start)
                         .weight(1.5f)
                         .wrapContentHeight()
                         .padding(top = 8.dp, bottom = 8.dp),
@@ -83,9 +84,10 @@ fun SpendingListItem(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    modifier = Modifier.wrapContentWidth(Alignment.End)
+                    modifier = Modifier
+                        .wrapContentWidth(Alignment.End)
                         .weight(0.5f),
-                    text = spendingItem.date,
+                    text = String.format("%d/%d/%d", spendingItem.day, spendingItem.month, spendingItem.year),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -122,9 +124,17 @@ fun SpendingListItem(
 @Composable
 fun PreviewSpendingItem() {
 
-    SpendingListItem(modifier =  Modifier
-        .fillMaxWidth()
-        .padding(16.dp),
-        SpendingModel("Lorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is s", 321.0, "2/12/2004",320),
-        {})
+    SpendingListItem(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        Spending(
+            "Lorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is s",
+            321.0,
+            day = 17,
+            month = 1,
+            year = 2024,
+            320
+        )
+    ) {}
 }

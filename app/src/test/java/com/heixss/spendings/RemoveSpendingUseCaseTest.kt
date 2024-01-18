@@ -1,6 +1,6 @@
 package com.heixss.spendings
 
-import com.heixss.spendings.feature.data.repositories.MainRepository
+import com.heixss.spendings.feature.domain.repository.MainRepository
 import com.heixss.spendings.feature.domain.usecases.RemoveSpendingUseCase
 import kotlinx.coroutines.runBlocking
 import org.junit.Before

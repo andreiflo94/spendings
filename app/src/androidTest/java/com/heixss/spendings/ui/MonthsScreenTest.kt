@@ -9,6 +9,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.heixss.spendings.feature.data.database.SpendingEntity
+import com.heixss.spendings.feature.domain.model.Spending
 import com.heixss.spendings.feature.presentation.ui.screen.MonthsScreen
 
 @RunWith(AndroidJUnit4::class)
@@ -22,9 +23,9 @@ class MonthsScreenTest {
         composeTestRule.setContent {
             // Initialize your Composable with sample data
             val spendings = rememberUpdatedState(listOf(
-                SpendingEntity(8, 1, day = 2, month = 9, year = 2023, value = 321.0),
-                SpendingEntity(8, 1, day = 2, month = 9, year = 2023, value = 321.0),
-                SpendingEntity(8, 1, day = 2, month = 9, year = 2023, value = 321.0),
+                Spending(spendingId = 8, description = "", day = 2, month = 9, year = 2023, sum = 321.0),
+                Spending(spendingId = 8, description = "", day = 2, month = 9, year = 2023, sum = 321.0),
+                Spending(spendingId = 8, description = "", day = 2, month = 9, year = 2023, sum = 321.0),
             ))
             MonthsScreen(
                 spendings = spendings,

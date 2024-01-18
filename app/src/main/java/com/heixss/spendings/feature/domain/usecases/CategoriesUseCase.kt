@@ -1,6 +1,6 @@
 package com.heixss.spendings.feature.domain.usecases
 
-import com.heixss.spendings.feature.data.repositories.MainRepository
+import com.heixss.spendings.feature.domain.repository.MainRepository
 import com.heixss.spendings.feature.domain.model.TotalSpendingPerCategory
 import com.heixss.spendings.feature.presentation.ui.screen.CategoriesScreenState
 import kotlinx.coroutines.flow.first
@@ -15,13 +15,13 @@ class CategoriesUseCase @Inject constructor(private val mainRepository: MainRepo
         var totalCategoriesSum = 0.0
 
         for (category in categories) {
-            val spendings = mainRepository.getSpendingsByCategoryId(category.id, month, year)
-            val totalSum = spendings.sumOf { it.value }
+            val spendings = mainRepository.getSpendingsByCategoryId(category.categoryId, month, year)
+            val totalSum = spendings.sumOf { it.sum }
             totalCategoriesSum += totalSum
 
             if (totalSum != 0.0) {
                 list.add(TotalSpendingPerCategory(categoryName = category.name,
-                    categoryId = category.id, totalSum))
+                    categoryId = category.categoryId, totalSum))
             }
         }
 

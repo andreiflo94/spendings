@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.heixss.spendings.feature.data.database.AppDatabase
-import com.heixss.spendings.feature.data.repositories.MainRepository
-import com.heixss.spendings.feature.domain.repository.MainRepositoryImpl
+import com.heixss.spendings.feature.domain.repository.MainRepository
+import com.heixss.spendings.feature.data.repositories.MainRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

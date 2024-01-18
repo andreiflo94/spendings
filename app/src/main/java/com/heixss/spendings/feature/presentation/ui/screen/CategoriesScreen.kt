@@ -37,7 +37,7 @@ fun CategoriesScreen(
                 modifier = Modifier.padding(top = 16.dp)
             )
             Text(
-                text = "Month: " + uiModel.value.month.toString(),
+                text = "Month: " + uiModel.value.month,
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(top = 16.dp)
             )

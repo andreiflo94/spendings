@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.heixss.spendings.feature.data.database.CategoryEntity
 import com.heixss.spendings.feature.data.database.SpendingEntity
-import com.heixss.spendings.feature.data.repositories.MainRepository
+import com.heixss.spendings.feature.domain.repository.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -22,19 +22,13 @@ class AddSpendingViewModel @Inject constructor(
 
             mainRepository.getCategoryByName(category)?.let { category ->
                 category.let {
-                    mainRepository.insertSpending(
-                        SpendingEntity(
-                            categoryId = category.id,
-                            description = description,
-                            value = amount,
-                            day = cal.get(Calendar.DAY_OF_MONTH),
-                            month = cal.get(Calendar.MONTH) + 1, //cuz 0 is january
-                            year = cal.get(Calendar.YEAR)
-                        )
+                    mainRepository.insertSpending(categoryId = category.categoryId,
+                        description = description,
+                        value = amount
                     )
                 }
             } ?: run {
-                mainRepository.insertCategory(CategoryEntity(name = category))
+                mainRepository.insertCategory(name = category)
                 addSpending(category, description, amount, timeStamp)
             }
 

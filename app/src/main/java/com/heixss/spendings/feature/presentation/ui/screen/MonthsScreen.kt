@@ -11,11 +11,11 @@ import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.heixss.spendings.composables.Screen
-import com.heixss.spendings.feature.data.database.SpendingEntity
+import com.heixss.spendings.feature.domain.model.Spending
 
 @Composable
 fun MonthsScreen(
-    spendings: State<List<SpendingEntity>>,
+    spendings: State<List<Spending>>,
     onAddClick: () -> Unit,
     onItemClick: (Int, Int) -> Unit
 ) {

@@ -1,7 +1,7 @@
 package com.heixss.spendings.feature.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.heixss.spendings.feature.data.repositories.MainRepository
+import com.heixss.spendings.feature.domain.repository.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

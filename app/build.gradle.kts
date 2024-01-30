@@ -107,4 +107,5 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest:1.5.0")
 
     testImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
+    implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
 }

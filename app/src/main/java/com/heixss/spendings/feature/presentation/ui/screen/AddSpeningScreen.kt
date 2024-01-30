@@ -26,7 +26,9 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.heixss.spendings.composables.CameraGalleryChooser
 import com.heixss.spendings.composables.Screen
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
@@ -50,7 +52,9 @@ fun AddSpendingScreen(onAddClick: (category: String, description: String, value:
                 onValueChange = { category = it },
                 label = { Text("Category") },
                 singleLine = true,
-                modifier = Modifier.fillMaxWidth().semantics { testTag = "CategoryTextField" },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .semantics { testTag = "CategoryTextField" },
                 keyboardOptions = KeyboardOptions.Default.copy(
                     imeAction = ImeAction.Next
                 )
@@ -63,7 +67,9 @@ fun AddSpendingScreen(onAddClick: (category: String, description: String, value:
                 onValueChange = { description = it },
                 label = { Text("Description") },
                 singleLine = true,
-                modifier = Modifier.fillMaxWidth().semantics { testTag = "DescriptionTextField" },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .semantics { testTag = "DescriptionTextField" },
                 keyboardOptions = KeyboardOptions.Default.copy(
                     imeAction = ImeAction.Next
                 )
@@ -83,8 +89,14 @@ fun AddSpendingScreen(onAddClick: (category: String, description: String, value:
                     keyboardController?.hide()
                 },
                 singleLine = true,
-                modifier = Modifier.fillMaxWidth().semantics { testTag = "ValueTextField" }
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .semantics { testTag = "ValueTextField" }
             )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            CameraGalleryChooser()
 
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -96,4 +108,10 @@ fun AddSpendingScreen(onAddClick: (category: String, description: String, value:
             }
         }
     }
+}
+
+@Composable
+@Preview(showBackground = true)
+fun PreviewAddSpending(){
+    AddSpendingScreen(onAddClick = {category, description, value -> })
 }

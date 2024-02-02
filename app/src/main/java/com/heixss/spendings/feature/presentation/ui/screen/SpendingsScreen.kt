@@ -1,11 +1,11 @@
 package com.heixss.spendings.feature.presentation.ui.screen
 
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,22 +23,29 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.heixss.spendings.composables.Screen
+import com.heixss.spendings.composables.AppScaffold
 import com.heixss.spendings.feature.domain.model.Spending
 
 @Composable
 fun SpendingsScreen(
     uiCategorySpendings: State<SpendingsScreenState>,
-    onDelete: (Long) -> Unit
+    onDelete: (Long) -> Unit,
+    onAddClick: () -> Unit
 ) {
-    Screen(screenTitle = uiCategorySpendings.value.category) {
+    AppScaffold(
+        pageTitle = uiCategorySpendings.value.category,
+        showAddButton = true,
+        onAddClick = { onAddClick() },
+    ) {
         LazyColumn(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .padding(it)
         ) {
             this.items(uiCategorySpendings.value.spendings.value) { spendingItem ->
                 SpendingListItem(
@@ -118,6 +125,18 @@ fun SpendingListItem(
             }
         }
     }
+}
+
+@SuppressLint("UnrememberedMutableState")
+@Preview()
+@Composable
+fun PreviewSpendingsScreen() {
+    SpendingsScreen(uiCategorySpendings = mutableStateOf(
+        SpendingsScreenState(
+            "test",
+            spendings = mutableStateOf(listOf())
+        )
+    ), onDelete = {}, onAddClick = {})
 }
 
 @Preview(showBackground = true)

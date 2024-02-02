@@ -3,14 +3,13 @@ package com.heixss.spendings.ui
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.heixss.spendings.feature.domain.model.Spending
+import com.heixss.spendings.feature.presentation.ui.screen.MonthsScreen
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.heixss.spendings.feature.data.database.SpendingEntity
-import com.heixss.spendings.feature.domain.model.Spending
-import com.heixss.spendings.feature.presentation.ui.screen.MonthsScreen
 
 @RunWith(AndroidJUnit4::class)
 class MonthsScreenTest {
@@ -39,7 +38,7 @@ class MonthsScreenTest {
     fun testMonthlySpendingsScreen() {
         // Verify that the "Add" button is displayed
         composeTestRule
-            .onNodeWithText("Add")
+            .onNodeWithTag("Add")
             .assertExists()
 
         // Verify that each MonthlySpendingItem displays the correct text

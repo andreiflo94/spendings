@@ -20,26 +20,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.heixss.spendings.composables.Screen
-import com.heixss.spendings.feature.data.database.CategoryEntity
+import com.heixss.spendings.composables.AppScaffold
 import com.heixss.spendings.feature.domain.model.TotalSpendingPerCategory
 
 @Composable
 fun CategoriesScreen(
-    uiModel: State<CategoriesScreenState>,
-    onItemClick: (Long) -> Unit
+    uiModel: State<CategoriesScreenState>, onItemClick: (Long) -> Unit
 ) {
-    Screen("Categories") {
-        Column(modifier = Modifier.fillMaxSize()) {
+    AppScaffold(pageTitle = "Categories", onAddClick = {}) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
             Text(
                 text = "Total Sum: " + uiModel.value.totalSum.toString(),
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(top = 16.dp)
             )
             Text(
-                text = "Month: " + uiModel.value.month,
-                style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(top = 16.dp)
+                text = "Month: " + uiModel.value.month, style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(top = 16.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
             SpendingList(uiModel.value.totalSpendingPerCategoryList, onItemClick)
@@ -49,8 +49,7 @@ fun CategoriesScreen(
 
 @Composable
 fun SpendingList(
-    spendingList: List<TotalSpendingPerCategory>,
-    onItemClick: (Long) -> Unit
+    spendingList: List<TotalSpendingPerCategory>, onItemClick: (Long) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize()
@@ -64,25 +63,18 @@ fun SpendingList(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SpendingListItem(
-    spendingItem: TotalSpendingPerCategory,
-    onItemClick: (Long) -> Unit
+    spendingItem: TotalSpendingPerCategory, onItemClick: (Long) -> Unit
 ) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp, bottom = 8.dp),
-        onClick = {
-            onItemClick(spendingItem.categoryId)
-        }
-    ) {
+    Card(modifier = Modifier
+        .fillMaxWidth()
+        .padding(top = 8.dp, bottom = 8.dp), onClick = {
+        onItemClick(spendingItem.categoryId)
+    }) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
             Text(
-                text = spendingItem.categoryName,
-                style = MaterialTheme.typography.bodyMedium,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                text = spendingItem.categoryName, style = MaterialTheme.typography.bodyMedium, maxLines = 1, overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
@@ -99,9 +91,7 @@ fun SpendingListItem(
 fun MonthlySpendingsDetailedScreenPreview() {
     val uiModel = remember {
         CategoriesScreenState(
-            totalSum = 1500.0,
-            month = "15/08",
-            totalSpendingPerCategoryList = listOf(
+            totalSum = 1500.0, month = "15/08", totalSpendingPerCategoryList = listOf(
                 TotalSpendingPerCategory(categoryId = 1, categoryName = "Category 1", totalSpendingValue = 600.0),
                 TotalSpendingPerCategory(categoryId = 2, categoryName = "Category 2", totalSpendingValue = 700.0),
                 TotalSpendingPerCategory(categoryId = 3, categoryName = "Category 3", totalSpendingValue = 200.0)
@@ -111,8 +101,5 @@ fun MonthlySpendingsDetailedScreenPreview() {
 
     val uiModelState = remember { mutableStateOf(uiModel) }
 
-    CategoriesScreen(
-        uiModel = uiModelState,
-        onItemClick = {}
-    )
+    CategoriesScreen(uiModel = uiModelState, onItemClick = {})
 }

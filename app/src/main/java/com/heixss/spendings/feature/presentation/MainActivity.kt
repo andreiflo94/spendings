@@ -13,16 +13,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.heixss.spendings.feature.presentation.ui.screen.CategoriesScreenState
 import com.heixss.spendings.feature.presentation.ui.screen.AddSpendingScreen
 import com.heixss.spendings.feature.presentation.ui.screen.CategoriesScreen
+import com.heixss.spendings.feature.presentation.ui.screen.CategoriesScreenState
 import com.heixss.spendings.feature.presentation.ui.screen.MonthsScreen
 import com.heixss.spendings.feature.presentation.ui.screen.SpendingsScreen
 import com.heixss.spendings.feature.presentation.ui.theme.SpendingsTheme
 import com.heixss.spendings.feature.presentation.viewmodel.AddSpendingViewModel
-import com.heixss.spendings.feature.presentation.viewmodel.SpendingsViewModel
 import com.heixss.spendings.feature.presentation.viewmodel.CategoriesScreenViewModel
 import com.heixss.spendings.feature.presentation.viewmodel.MonthsViewModel
+import com.heixss.spendings.feature.presentation.viewmodel.SpendingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         // Create a NavController
         setContent {
-            SpendingsTheme {
+            SpendingsTheme(darkTheme = false) {
                 SpendingsApp()
             }
         }
@@ -156,6 +156,9 @@ class MainActivity : ComponentActivity() {
                     uiCategorySpendings = viewModel.state.collectAsStateWithLifecycle(),
                     onDelete = { spendingId ->
                         viewModel.removeSpending(spendingId)
+                    },
+                    onAddClick = {
+                        navController.navigate(Screen.AddSpendingScreen.route)
                     }
                 )
             }

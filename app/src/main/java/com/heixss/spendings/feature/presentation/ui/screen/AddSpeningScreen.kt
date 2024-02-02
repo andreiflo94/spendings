@@ -28,8 +28,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.heixss.spendings.composables.AppScaffold
 import com.heixss.spendings.composables.CameraGalleryChooser
-import com.heixss.spendings.composables.Screen
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
@@ -39,10 +39,10 @@ fun AddSpendingScreen(onAddClick: (category: String, description: String, value:
     var value by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    Screen("Add spending") {
+    AppScaffold(pageTitle = "Add spending", onAddClick = {}) { innerPadding ->
         Column(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(innerPadding)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -112,6 +112,6 @@ fun AddSpendingScreen(onAddClick: (category: String, description: String, value:
 
 @Composable
 @Preview(showBackground = true)
-fun PreviewAddSpending(){
-    AddSpendingScreen(onAddClick = {category, description, value -> })
+fun PreviewAddSpending() {
+    AddSpendingScreen(onAddClick = { category, description, value -> })
 }

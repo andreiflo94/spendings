@@ -2,20 +2,11 @@
 
 Spendings is an Android native app designed to help users track their monthly expenditures. It serves as a simple application to demonstrate reading and writing to a room database.
 
-## Screenshots
 
-- The first screen of the app displays all the recorded months with spendings.
-![Months](https://github.com/andreiflo94/spendings/blob/main/screenshots/Screenshot_20240219_153302.png?raw=true)
 
-- Clicking "Add" on the first screen navigates the user to the "Add Spending" screen.
-![Add Spending Screen](https://github.com/andreiflo94/spendings/blob/main/screenshots/Screenshot_20240219_153824.png?raw=true)
+https://github.com/andreiflo94/spendings/assets/65669970/5cfe7421-c1a2-4282-bb83-1411bbad6d34
 
-- When a month is selected, the user is presented with all the spending categories, along with the total sum spent and the month the spendings were made.
 
-![Categories](https://github.com/andreiflo94/spendings/blob/main/screenshots/Screenshot_20240219_153319.png?raw=true)
-
-- Clicking a category displays all related spendings to the user.
-![Spendings](https://github.com/andreiflo94/spendings/blob/main/screenshots/Screenshot_20240219_153334.png?raw=true)
 
 ## Technologies Used
 

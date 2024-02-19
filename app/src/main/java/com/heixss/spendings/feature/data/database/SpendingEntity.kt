@@ -8,6 +8,7 @@ class SpendingEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val categoryId: Long,
     val description: String = "",
+    val checkImagePath: String? = null,
     var value: Double,
     var day: Int,
     var month: Int,

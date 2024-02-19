@@ -13,6 +13,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.heixss.spendings.composables.ZoomableImage
 import com.heixss.spendings.feature.presentation.ui.screen.AddSpendingScreen
 import com.heixss.spendings.feature.presentation.ui.screen.CategoriesScreen
 import com.heixss.spendings.feature.presentation.ui.screen.CategoriesScreenState
@@ -42,8 +44,11 @@ class MainActivity : ComponentActivity() {
         object MonthsScreen : Screen("months")
         object CategoriesScreen : Screen("categories")
         object SpendingsScreen : Screen("spendings")
+
+        object ZoomImageScreen : Screen("zoom_image")
     }
 
+    @OptIn(ExperimentalGlideComposeApi::class)
     @Composable
     fun SpendingsApp(
     ) {
@@ -98,11 +103,26 @@ class MainActivity : ComponentActivity() {
                     })
 
             }
-            composable(Screen.AddSpendingScreen.route) {
+            composable(
+                route = Screen.AddSpendingScreen.route + "?category={category}",
+                arguments = listOf(
+                    navArgument(
+                        name = "category"
+                    ) {
+                        type = NavType.StringType
+                        defaultValue = ""
+                    })
+            ) { backStackEntry ->
+                val navArgs = backStackEntry.arguments
+                var backStackCategory = ""
+                navArgs?.getString("category")?.let {
+                    if (it.isNotEmpty()) backStackCategory = it
+                }
                 val viewModel = hiltViewModel<AddSpendingViewModel>()
                 val context = LocalContext.current
                 AddSpendingScreen(
-                    onAddClick = { category, description, value ->
+                    predefinedCategory = backStackCategory,
+                    onAddClick = { category, description, checkImagePath, value ->
                         if (category.isEmpty() || description.isEmpty() || value.isEmpty()) {
                             Toast.makeText(context, "Fields must not be empty", Toast.LENGTH_SHORT).show()
                             return@AddSpendingScreen
@@ -110,10 +130,11 @@ class MainActivity : ComponentActivity() {
 
                         val timestamp: Long = System.currentTimeMillis()
                         viewModel.addSpending(
-                            category.trim().toLowerCase(),
-                            description.trim(),
-                            value.toDouble(),
-                            timestamp
+                            category = category.trim().lowercase(),
+                            description = description.trim(),
+                            checkImagePath = checkImagePath,
+                            amount = value.toDouble(),
+                            timeStamp = timestamp
                         )
                         Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
                     }
@@ -157,10 +178,28 @@ class MainActivity : ComponentActivity() {
                     onDelete = { spendingId ->
                         viewModel.removeSpending(spendingId)
                     },
-                    onAddClick = {
-                        navController.navigate(Screen.AddSpendingScreen.route)
+                    onCheckImageClick = { checkImagePath ->
+                        navController.navigate(Screen.ZoomImageScreen.route + "?checkImagePath=$checkImagePath")
+                    },
+                    onAddClick = { pageCategory ->
+                        navController.navigate(Screen.AddSpendingScreen.route + "?category=$pageCategory")
                     }
                 )
+            }
+            composable(
+                route = Screen.ZoomImageScreen.route + "?checkImagePath={checkImagePath}",
+                arguments = listOf(
+                    navArgument(
+                        name = "checkImagePath"
+                    ) {
+                        type = NavType.StringType
+                        defaultValue = ""
+                    }
+                )
+            ) { backStackEntry ->
+                val navArgs = backStackEntry.arguments
+                val checkImagePath = navArgs?.getString("checkImagePath") ?: ""
+                ZoomableImage(model = checkImagePath)
             }
         }
     }

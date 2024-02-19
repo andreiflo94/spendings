@@ -24,7 +24,7 @@ class AddSpendingScreenTest {
         var capturedValue = ""
 
         composeTestRule.setContent {
-            AddSpendingScreen { category, description, value ->
+            AddSpendingScreen (""){ category, description, checkImagePath, value ->
                 capturedCategory = category
                 capturedDescription = description
                 capturedValue = value

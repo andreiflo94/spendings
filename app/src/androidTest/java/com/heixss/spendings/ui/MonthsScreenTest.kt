@@ -22,9 +22,9 @@ class MonthsScreenTest {
         composeTestRule.setContent {
             // Initialize your Composable with sample data
             val spendings = rememberUpdatedState(listOf(
-                Spending(spendingId = 8, description = "", day = 2, month = 9, year = 2023, sum = 321.0),
-                Spending(spendingId = 8, description = "", day = 2, month = 9, year = 2023, sum = 321.0),
-                Spending(spendingId = 8, description = "", day = 2, month = 9, year = 2023, sum = 321.0),
+                Spending(spendingId = 8, description = "", checkImagePath = null, day = 2, month = 9, year = 2023, sum = 321.0),
+                Spending(spendingId = 8, description = "", checkImagePath = null, day = 2, month = 9, year = 2023, sum = 321.0),
+                Spending(spendingId = 8, description = "", checkImagePath = null, day = 2, month = 9, year = 2023, sum = 321.0),
             ))
             MonthsScreen(
                 spendings = spendings,

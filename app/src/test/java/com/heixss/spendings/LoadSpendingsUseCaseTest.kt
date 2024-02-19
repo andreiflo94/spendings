@@ -29,15 +29,17 @@ class LoadSpendingsUseCaseTest {
         val categoryId = 1L
         val month = 10
         val year = 2023
-        val mockedSpending =  Spending(
-            "desc",
-            210.0,
-            17,
-            1,
-            2024,
-            3
+        val mockedSpending = Spending(
+            description = "desc",
+
+            sum = 210.0,
+            checkImagePath = null,
+            day = 17,
+            month = 1,
+            year = 2024,
+            spendingId = 3
         )
-        val mockedCategory =  Category(categoryId = 3, name = "Food")
+        val mockedCategory = Category(categoryId = 3, name = "Food")
 
         val expectedSpendingList = listOf(
             mockedSpending

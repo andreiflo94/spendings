@@ -19,6 +19,7 @@ class MainRepositoryImpl @Inject constructor(
         return@map it.map { spendingEntity ->
             Spending(
                 description = spendingEntity.description,
+                checkImagePath = spendingEntity.checkImagePath,
                 sum = spendingEntity.value,
                 day = spendingEntity.day,
                 month = spendingEntity.month,
@@ -33,6 +34,7 @@ class MainRepositoryImpl @Inject constructor(
             return@map it.map { spendingEntity ->
                 Spending(
                     description = spendingEntity.description,
+                    checkImagePath = spendingEntity.checkImagePath,
                     sum = spendingEntity.value,
                     day = spendingEntity.day,
                     month = spendingEntity.month,
@@ -54,13 +56,14 @@ class MainRepositoryImpl @Inject constructor(
         appDatabase.categoryDao().insert(CategoryEntity(name = name))
     }
 
-    override suspend fun insertSpending(categoryId: Long, description: String, value: Double) {
+    override suspend fun insertSpending(categoryId: Long, description: String, checkImagePath: String?, value: Double) {
         val cal: Calendar = Calendar.getInstance()
         cal.timeInMillis = System.currentTimeMillis()
         appDatabase.spendingDao().insert(
             SpendingEntity(
                 categoryId = categoryId,
                 description = description,
+                checkImagePath = checkImagePath,
                 value = value,
                 day = cal.get(Calendar.DAY_OF_MONTH),
                 month = cal.get(Calendar.MONTH) + 1, //cuz 0 is january
@@ -94,6 +97,7 @@ class MainRepositoryImpl @Inject constructor(
             return@map it.map { spendingEntity ->
                 Spending(
                     description = spendingEntity.description,
+                    checkImagePath = spendingEntity.checkImagePath,
                     sum = spendingEntity.value,
                     day = spendingEntity.day,
                     month = spendingEntity.month,
@@ -111,6 +115,7 @@ class MainRepositoryImpl @Inject constructor(
         return appDatabase.spendingDao().getSpendingsByCategoryId(categoryId, month, year).map { spendingEntity ->
             Spending(
                 description = spendingEntity.description,
+                checkImagePath = spendingEntity.checkImagePath,
                 sum = spendingEntity.value,
                 day = spendingEntity.day,
                 month = spendingEntity.month,

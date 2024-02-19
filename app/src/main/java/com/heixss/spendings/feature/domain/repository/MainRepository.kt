@@ -14,7 +14,7 @@ interface MainRepository {
 
     suspend fun insertCategory(name: String)
 
-    suspend fun insertSpending(categoryId: Long, description: String, value: Double)
+    suspend fun insertSpending(categoryId: Long, description: String, checkImagePath: String?, value: Double)
 
     suspend fun getCategoryByName(category: String): Category?
 

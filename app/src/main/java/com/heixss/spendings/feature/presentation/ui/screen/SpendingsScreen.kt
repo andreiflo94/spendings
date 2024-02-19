@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -29,19 +31,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.heixss.spendings.composables.AppScaffold
 import com.heixss.spendings.feature.domain.model.Spending
 
 @Composable
 fun SpendingsScreen(
     uiCategorySpendings: State<SpendingsScreenState>,
+    onCheckImageClick: (String) -> Unit,
     onDelete: (Long) -> Unit,
-    onAddClick: () -> Unit
+    onAddClick: (pageCategory: String) -> Unit
 ) {
     AppScaffold(
         pageTitle = uiCategorySpendings.value.category,
         showAddButton = true,
-        onAddClick = { onAddClick() },
+        onAddClick = { onAddClick(uiCategorySpendings.value.category) },
     ) {
         LazyColumn(
             modifier = Modifier
@@ -54,7 +59,8 @@ fun SpendingsScreen(
                         .wrapContentHeight()
                         .padding(8.dp),
                     spendingItem,
-                    onDelete
+                    onCheckImageClick = onCheckImageClick,
+                    onDelete = onDelete
                 )
             }
         }
@@ -65,6 +71,7 @@ fun SpendingsScreen(
 fun SpendingListItem(
     modifier: Modifier = Modifier,
     spendingItem: Spending,
+    onCheckImageClick: (String) -> Unit,
     onDelete: (Long) -> Unit
 ) {
     Card(
@@ -99,6 +106,7 @@ fun SpendingListItem(
                     color = MaterialTheme.colorScheme.primary
                 )
             }
+            CheckImageRow(spendingItem, onCheckImageClick)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -127,8 +135,29 @@ fun SpendingListItem(
     }
 }
 
+@Composable
+@OptIn(ExperimentalGlideComposeApi::class)
+private fun CheckImageRow(spendingItem: Spending, onCheckImageClick: (String) -> Unit) {
+    spendingItem.checkImagePath?.let { checkImagePath ->
+        IconButton(
+            modifier = Modifier
+                .size(100.dp),
+            onClick = {
+                onCheckImageClick(checkImagePath)
+            }
+        ) {
+            GlideImage(
+                model = checkImagePath,
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize(),
+            )
+        }
+    }
+}
+
 @SuppressLint("UnrememberedMutableState")
-@Preview()
+@Preview
 @Composable
 fun PreviewSpendingsScreen() {
     SpendingsScreen(uiCategorySpendings = mutableStateOf(
@@ -136,13 +165,12 @@ fun PreviewSpendingsScreen() {
             "test",
             spendings = mutableStateOf(listOf())
         )
-    ), onDelete = {}, onAddClick = {})
+    ), onDelete = {}, onCheckImageClick = {}, onAddClick = {})
 }
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewSpendingItem() {
-
     SpendingListItem(
         modifier = Modifier
             .fillMaxWidth()
@@ -150,10 +178,13 @@ fun PreviewSpendingItem() {
         Spending(
             "Lorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is sLorem Ipsum is s",
             321.0,
+            checkImagePath = "https://cdn.britannica.com/96/1296-050-4A65097D/gelding-bay-coat.jpg",
             day = 17,
             month = 1,
             year = 2024,
             320
-        )
-    ) {}
+        ),
+        {},
+        {}
+    )
 }
